@@ -32,10 +32,10 @@ if uploaded_file is not None:
 
         with col1:
             st.header("Modelo Base")
-            st.image(img_base, use_column_width=True)
+            st.image(img_base, use_container_width=True)
 
         with col2:
             st.header("Meu Modelo")
-            st.image(img_custom, use_column_width=True)
+            st.image(img_custom, use_container_width=True)
 else:
     st.warning("Por favor, envie uma imagem no formato JPG, JPEG ou PNG para continuar.")
