@@ -5,8 +5,8 @@ import os
 
 st.title("Robótica Móvel - Comparação de Modelos")
 
-model_base = YOLO("yolo11s.pt")
-model_custom = YOLO("my_model.pt")
+model_base = YOLO("models/yolo11s.pt")
+model_custom = YOLO("models/my_model.pt")
 
 uploaded_file = st.file_uploader("Envie uma imagem para análise", type=["jpg", "jpeg", "png"])
 
