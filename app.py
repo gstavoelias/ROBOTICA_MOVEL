@@ -5,19 +5,24 @@ import os
 
 st.title("Robótica Móvel - Comparação de Modelos")
 
-model_base = YOLO("yolo11s.pt")
-model_custom = YOLO("my_model.pt")
-
 uploaded_file = st.file_uploader("Envie uma imagem para análise", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     if st.button("Comparar Modelos"):
-        file_path = os.path.join("temp_uploaded_image.jpg")
+        # Carrega os modelos dentro da ação, e não no topo
+        model_base = YOLO("yolo11s.pt")
+        model_custom = YOLO("teste.pt")
+
+        file_path = "temp_uploaded_image.jpg"
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        results_base = model_base.predict(source=file_path, conf=0.25, save=True, classes=[0])
-        results_custom = model_custom.predict(source=file_path, conf=0.25, save=True)
+        results_base = model_base.predict(source=file_path, conf=0.4, save=True, classes=[0])
+        results_custom = model_custom.predict(source=file_path, conf=0.4, save=True)
+
+        num_persons = len(results_base[0].boxes)  # Modelo base: pessoa (classe 0 do COCO)
+        num_alunos = len(results_custom[0].boxes) # Modelo customizado: aluno
+
 
         save_dir_base = results_base[0].save_dir
         saved_img_path_base = os.path.join(save_dir_base, os.path.basename(file_path))
@@ -31,11 +36,11 @@ if uploaded_file is not None:
         col1, col2 = st.columns(2)
 
         with col1:
-            st.header("Modelo Base")
+            st.header(f"Modelo Base: (Pessoas detectadas: {num_persons})")
             st.image(img_base, use_container_width=True)
 
         with col2:
-            st.header("Meu Modelo")
+            st.header(f"Meu Modelo (Alunos detectados: {num_alunos})")
             st.image(img_custom, use_container_width=True)
 else:
     st.warning("Por favor, envie uma imagem no formato JPG, JPEG ou PNG para continuar.")
