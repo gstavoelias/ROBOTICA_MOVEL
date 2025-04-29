@@ -11,7 +11,7 @@ if uploaded_file is not None:
     if st.button("Comparar Modelos"):
         # Carrega os modelos dentro da ação, e não no topo
         model_base = YOLO("yolo11s.pt")
-        model_custom = YOLO("teste.pt")
+        model_custom = YOLO("ultimo.pt")
 
         file_path = "temp_uploaded_image.jpg"
         with open(file_path, "wb") as f:
